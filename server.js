@@ -16,13 +16,11 @@ var refreshToken = "";
 
 function makeRequest(accessCode) {
   const requestBody = {
-    params: {
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
-      grant_type: "authorization_code",
-      code: accessCode,
-      redirect_uri: "https://clio-multi-timer-server.herokuapp.com/callback"
-    }
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
+    grant_type: "authorization_code",
+    code: accessCode,
+    redirect_uri: "https://clio-multi-timer-server.herokuapp.com/callback"
   };
 
   const config = {
