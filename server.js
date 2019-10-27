@@ -38,5 +38,5 @@ app.get('/callback', (req, res) => {
     console.log("Error: code not granted");
   }
 
-  res.send(200);
+  res.sendStatus(200);
 });
