@@ -29,7 +29,7 @@ function makeRequest(accessCode) {
     }
   }
 
-  axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody))
+  axios.post('https://app.clio.com/oauth/token', `client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&grant_type=authorization_code&code=${accessCode}&redirect_uri=https://clio-multi-timer-server.herokuapp.com/callback`)
     .then((res) => {
       console.log(`statusCode: ${res.statusCode}`);
       authToken = res.query.access_token;
