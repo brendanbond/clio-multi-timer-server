@@ -23,7 +23,13 @@ function makeRequest(accessCode) {
     redirect_uri: "https://clio-multi-timer-server.herokuapp.com/callback"
   };
 
-  axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody))
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
+
+  axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
       console.log(`statusCode: ${res.statusCode}`);
       authToken = res.query.access_token;
