@@ -11,6 +11,6 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // create a GET route
 app.get('/callback', (req, res) => {
   console.log("Hello world!");
-  console.log(req.params);
+  console.log(req.query.code);
   res.send(200);
 });
