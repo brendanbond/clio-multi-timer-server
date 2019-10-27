@@ -32,8 +32,9 @@ function makeRequest(accessCode) {
   axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
       console.log(`statusCode: ${res.statusCode}`);
-      authToken = res.query.access_token;
-      refreshToken = res.query.refresh_token;
+      console.log(res);
+      //authToken = res.query.access_token;
+      //refreshToken = res.query.refresh_token;
     })
     .catch((error) => {
       console.error(error)
