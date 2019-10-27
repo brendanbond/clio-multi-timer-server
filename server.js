@@ -14,7 +14,3 @@ app.get('/callback', (req, res) => {
   console.log(req.params);
   res.send(200);
 });
-
-app.get('/', (req, res) => {
-  res.send("hello world");
-});
