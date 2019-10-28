@@ -11,16 +11,27 @@ app.use(morgan('dev'));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-var authToken = "";
-var refreshToken = "";
+// Clio auth endpoint
+app.get('/auth', (req, res) => {
+  if (req.query.code) {
+    console.log("Making request...");
+    var token = getAccessToken(req.query.code);
+  } else {
+    console.log("Error: no authorization code");
+    return res.send("Error: no authorization code");
+  }
 
-function makeRequest(accessCode) {
+  res.send(token);
+});
+
+// Once we have an authorization code, we need to POST to Clio to receive access & refresh tokens
+function getAccessToken(accessCode) {
   const requestBody = {
     client_id: process.env.CLIENT_ID,
     client_secret: process.env.CLIENT_SECRET,
     grant_type: "authorization_code",
     code: accessCode,
-    redirect_uri: "https://clio-multi-timer-server.herokuapp.com/callback"
+    redirect_uri: "https://clio-multi-timer-server.herokuapp.com/auth"
   };
 
   const config = {
@@ -31,23 +42,16 @@ function makeRequest(accessCode) {
 
   axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
-      console.log(`statusCode: ${res.statusCode}`);
-      console.log(res);
-      //authToken = res.query.access_token;
-      //refreshToken = res.query.refresh_token;
+      var authToken = res.data.access_token;
+      var refreshToken = res.data.refresh_token;
     })
     .catch((error) => {
       console.error(error)
     });
-}
-// Clio redirects to here
-app.get('/callback', (req, res) => {
-  if (req.query.code) {
-    console.log("Making request...");
-    makeRequest(req.query.code);
-  } else {
-    console.log("Error: code not granted");
-  }
 
-  res.sendStatus(200);
-});
+  // TODO: add expiresIn, check whether we need to use refresh token
+  return {
+    authToken: authToken,
+    refreshToken: refreshToken
+  }
+}
