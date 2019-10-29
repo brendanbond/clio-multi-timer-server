@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const axios = require('axios');
 const querystring = require('querystring');
 
+const sse = require('./sse');
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -11,10 +13,9 @@ app.use(morgan('dev'));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-var tokens = {
-  authToken: null,
-  refreshToken: null
-};
+var tokens = null;
+
+app.use(sse);
 
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
@@ -30,6 +31,16 @@ app.get('/auth', (req, res) => {
 app.get('/refresh_matters', (req, res) => {
   if (tokens.authToken) {
     //refresh matters data
+  } else {
+    return res.send("Error: no authorization token");
+  }
+});
+
+app.get('/auth_stream', (req, res) => {
+  if (tokens) {
+    res.sseSetup();
+    res.sseSend(tokens);
+    tokens = null;
   } else {
     return res.send("Error: no authorization token");
   }
