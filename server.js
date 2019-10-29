@@ -42,6 +42,7 @@ app.get('/auth_stream', (req, res) => {
     res.sseSend(tokens);
     tokens = null;
   } else {
+    console.log("Error: no authorization token");
     return res.send("Error: no authorization token");
   }
 });
