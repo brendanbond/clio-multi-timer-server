@@ -21,7 +21,7 @@ app.use(sse);
 app.get('/auth', (req, res) => {
   if (req.query.code) {
     console.log("Making request...");
-    tokens = getAccessToken(req.query.code);
+    getAccessToken(req.query.code);
   } else {
     console.log("Error: no authorization code");
     return res.send("Error: no authorization code");
@@ -65,16 +65,14 @@ function getAccessToken(accessCode) {
 
   axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
-      var authToken = res.data.access_token;
-      var refreshToken = res.data.refresh_token;
+      tokens = {
+        authToken: res.data.access_token,
+        refreshToken: res.data.refresh_token
+      };
     })
     .catch((error) => {
       console.error(error)
     });
 
   // TODO: add expiresIn, check whether we need to use refresh token
-  return {
-    authToken: authToken,
-    refreshToken: refreshToken
-  }
 }
