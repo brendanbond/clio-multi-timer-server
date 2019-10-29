@@ -65,14 +65,10 @@ function getAccessToken(accessCode) {
 
   axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
-      tokens = {
-        authToken: res.data.access_token,
-        refreshToken: res.data.refresh_token
-      };
+      console.log(res.data.access_token);
     })
     .catch((error) => {
       console.error(error)
     });
-
   // TODO: add expiresIn, check whether we need to use refresh token
 }
