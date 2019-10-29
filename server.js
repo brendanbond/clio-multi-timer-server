@@ -11,17 +11,28 @@ app.use(morgan('dev'));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+var tokens = {
+  authToken: null,
+  refreshToken: null
+};
+
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
   if (req.query.code) {
     console.log("Making request...");
-    var token = getAccessToken(req.query.code);
+    tokens = getAccessToken(req.query.code);
   } else {
     console.log("Error: no authorization code");
     return res.send("Error: no authorization code");
-  }
+  };
+});
 
-  res.send(token);
+app.get('/refresh_matters', (req, res) => {
+  if (tokens.authToken) {
+    //refresh matters data
+  } else {
+    return res.send("Error: no authorization token");
+  }
 });
 
 // Once we have an authorization code, we need to POST to Clio to receive access & refresh tokens
