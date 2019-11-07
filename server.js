@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const https = require('https');
 
 const axios = require('axios');
 const querystring = require('querystring');
@@ -15,8 +16,11 @@ app.use(function (req, res, next) {
   next();
 });
 
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
+https.createServer({
+    key: false.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+  }, app)
+  .listen(port, () => console.log(`Listening on port ${port}`));
 
 
 // Clio auth endpoint
