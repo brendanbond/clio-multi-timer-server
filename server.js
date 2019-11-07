@@ -18,12 +18,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-https.createServer({
-    key: fs.readFileSync('server.pem'),
-    cert: fs.readFileSync('server.pem')
-  }, app)
-  .listen(port, () => console.log(`Listening on port ${port}`));
-
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
