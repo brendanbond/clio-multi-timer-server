@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
 });
 
 https.createServer({
-    key: false.readFileSync('server.key'),
+    key: fs.readFileSync('server.key'),
     cert: fs.readFileSync('server.cert')
   }, app)
   .listen(port, () => console.log(`Listening on port ${port}`));
