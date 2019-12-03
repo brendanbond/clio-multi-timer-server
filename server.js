@@ -49,11 +49,11 @@ function getAccessToken(accessCode) {
     }
   }
 
-  axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
+  return axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
       return res.data;
     })
     .catch((error) => {
-      return console.error(error)
+      console.error(error)
     });
 }
