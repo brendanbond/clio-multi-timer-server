@@ -31,25 +31,6 @@ app.get('/auth', (req, res) => {
   };
 });
 
-app.get('/refresh_matters', (req, res) => {
-  if (tokens.authToken) {
-    //refresh matters data
-  } else {
-    return res.send("Error: no authorization token");
-  }
-});
-
-app.get('/auth_stream', (req, res) => {
-  if (tokens) {
-    res.sseSetup();
-    res.sseSend(tokens);
-    tokens = null;
-  } else {
-    console.log("Error: no authorization token");
-    return res.send("Error: no authorization token");
-  }
-});
-
 // Once we have an authorization code, we need to POST to Clio to receive access & refresh tokens
 function getAccessToken(accessCode) {
   var accessToken = '';
@@ -73,6 +54,9 @@ function getAccessToken(accessCode) {
   axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
       console.log(res.data.access_token);
+      accessToken = res.data.access_token;
+      refreshToken = res.data.refresh_token;
+      expiresIn = res.data.expires_in;
       console.log(refreshToken);
       console.log(expiresIn);
     })
