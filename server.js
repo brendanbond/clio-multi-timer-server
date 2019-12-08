@@ -6,11 +6,13 @@ const fs = require('fs');
 
 const axios = require('axios');
 const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(morgan('dev'));
+app.use(cookieParser());
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "https://localhost:3000"); // update to match the domain you will make the request from
@@ -23,9 +25,8 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
   if (req.query.code) {
-    console.log("Making request...");
     getAccessToken(req.query.code).then((data) => {
-      return res.json(data);
+      console.log(res.data);
     });
   } else {
     console.log("Error: no authorization code");
