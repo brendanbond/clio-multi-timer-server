@@ -26,10 +26,12 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.get('/auth', (req, res) => {
   if (req.query.code) {
     getAccessToken(req.query.code).then((data) => {
+      console.log("in then() of getAccessToken");
       res.cookie('access_token', data.access_token, {
         expire: new Date() + data.expires_in
       });
       res.cookie('refresh_token', data.refresh_token);
+      res.sendStatus(200);
     }).catch((err) => {
       console.log(err);
     });
