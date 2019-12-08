@@ -26,7 +26,10 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.get('/auth', (req, res) => {
   if (req.query.code) {
     getAccessToken(req.query.code).then((data) => {
-      console.log(data);
+      res.cookie(access_token, data.access_token, {
+        expire: new Date() + data.expires_in
+      });
+      res.cookie(refresh_token, data.refresh_token);
     });
   } else {
     console.log("Error: no authorization code");
