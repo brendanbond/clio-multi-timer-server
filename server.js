@@ -30,6 +30,8 @@ app.get('/auth', (req, res) => {
         expire: new Date() + data.expires_in
       });
       res.cookie('refresh_token', data.refresh_token);
+    }).catch((err) => {
+      console.log(err);
     });
   } else {
     console.log("Error: no authorization code");
