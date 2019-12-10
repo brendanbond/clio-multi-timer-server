@@ -28,10 +28,11 @@ app.get('/auth', (req, res) => {
     getAccessToken(req.query.code).then((data) => {
       console.log("in then() of getAccessToken");
       res.cookie('access_token', data.access_token, {
-        expire: new Date() + data.expires_in
+        expire: new Date() + data.expires_in,
+        secure: true
       });
       res.cookie('refresh_token', data.refresh_token);
-      res.sendStatus(200);
+      return data.access_token;
     }).catch((err) => {
       console.log(err);
     });
