@@ -1,9 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 
-const https = require('https');
-const fs = require('fs');
-
 const axios = require('axios');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
@@ -25,7 +22,7 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
   if (req.query.code) {
-    getAccessToken(req.query.code).then((data) => {
+    return getAccessToken(req.query.code).then((data) => {
       console.log(data);
       return data.access_token;
     }).catch((err) => {
