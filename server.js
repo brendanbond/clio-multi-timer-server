@@ -24,7 +24,7 @@ app.get('/auth', (req, res) => {
   if (req.query.code) {
     getAccessToken(req.query.code).then((data) => {
       console.log(data);
-      res.send(data.access_token);
+      return data.access_token;
     }).catch((err) => {
       console.log(err);
     });
