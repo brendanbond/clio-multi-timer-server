@@ -50,11 +50,5 @@ function getAccessToken(accessCode) {
     }
   }
 
-  return axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((error) => {
-      console.error(error)
-    });
+  return axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config);
 }
