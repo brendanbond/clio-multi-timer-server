@@ -22,9 +22,10 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
   if (req.query.code) {
-    const accessToken = getAccessToken(req.query.code);
-    console.log(accessToken);
-    return res.send(accessToken);
+    getAccessToken(req.query.code).then((data) => {
+      console.log(data.access_token);
+      return res.send(data.access_token);
+    });
   } else {
     console.log("Error: no authorization code");
   };
