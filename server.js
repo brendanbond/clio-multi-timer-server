@@ -23,7 +23,7 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.get('/auth', (req, res) => {
   if (req.query.code) {
     getAccessToken(req.query.code).then((res) => {
-      return res.send(data);
+      return res.send(res.data);
     }).catch((err) => {
       console.log(err);
     });
