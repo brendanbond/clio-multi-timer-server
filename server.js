@@ -56,7 +56,7 @@ function getAccessToken(accessCode) {
 
   return axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
-      console.log("Promise resolved; res is " + JSON.stringify(res));
+      console.log("Promise resolved; res is " + res);
       return res.data.access_token;
     }).catch((err) => {
       console.log("Promise failed to resolve...");
