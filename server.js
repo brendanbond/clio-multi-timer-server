@@ -21,17 +21,19 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
+  console.log("/auth endpoint reached.");
   if (req.query.code) {
+    console.log("Auth code delivered.");
     getAccessToken(req.query.code).then((accessToken) => {
+      console.log("accessToken resolved to" + JSON.stringify(accessToken));
       res.send(accessToken);
     }).catch((err) => {
       console.log(err);
     });
   } else {
+    res.sendStatus(500);
     console.log("Error: no authorization code");
   };
-
-  return res.send(accessToken);
 });
 
 // Once we have an authorization code, we need to POST to Clio to receive access & refresh tokens
@@ -50,10 +52,14 @@ function getAccessToken(accessCode) {
     }
   }
 
+  console.log("Retrieving access token...");
+
   return axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
     .then((res) => {
+      console.log("Promise resolved; res is " + JSON.stringify(res));
       return res.data.access_token;
     }).catch((err) => {
+      console.log("Promise failed to resolve...");
       console.log(err);
     });
 }
