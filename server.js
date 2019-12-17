@@ -22,8 +22,8 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
   if (req.query.code) {
-    getAccessToken(req.query.code).then((data) => {
-      return res.send(data);
+    getAccessToken(req.query.code).then((res) => {
+      return res.send(res.data);
     }).catch((err) => {
       console.log(err);
     });
@@ -48,10 +48,5 @@ function getAccessToken(accessCode) {
     }
   }
 
-  return axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config)
-    .then((res) => {
-      return res.data;
-    }).catch((err) => {
-      console.log(err);
-    });
+  return axios.post('https://app.clio.com/oauth/token', querystring.stringify(requestBody), config);
 }
