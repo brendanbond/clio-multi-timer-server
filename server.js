@@ -22,14 +22,16 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // Clio auth endpoint
 app.get('/auth', (req, res) => {
   if (req.query.code) {
-    getAccessToken(req.query.code).then((res) => {
-      return res.send(res.data);
+    const accessToken = getAccessToken(req.query.code).then((data) => {
+      return data;
     }).catch((err) => {
       console.log(err);
     });
   } else {
     console.log("Error: no authorization code");
   };
+
+  return res.send(accessToken);
 });
 
 // Once we have an authorization code, we need to POST to Clio to receive access & refresh tokens
