@@ -36,6 +36,7 @@ app.get("/auth", (req, res) => {
       })
       .catch(err => {
         console.log(err);
+        res.send(err);
       });
   } else {
     res.sendStatus(500);
@@ -50,7 +51,7 @@ function getAuthObject(accessCode) {
     client_secret: process.env.CLIENT_SECRET,
     grant_type: "authorization_code",
     code: accessCode,
-    redirect_uri: "https://localhost:3000/auth"
+    redirect_uri: "https://clio-multi-timer.herokuapp.com/auth"
   };
 
   const config = {
@@ -73,6 +74,6 @@ function getAuthObject(accessCode) {
     })
     .catch(err => {
       console.log("Promise failed to resolve...");
-      console.log(err);
+      throw err;
     });
 }
