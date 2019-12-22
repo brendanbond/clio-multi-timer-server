@@ -68,7 +68,7 @@ function getAuthObject(accessCode) {
       config
     )
     .then(res => {
-      console.log("Promise resolved; res is " + res);
+      console.log("Promise resolved");
       return res.data;
     })
     .catch(err => {
